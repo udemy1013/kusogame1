@@ -1,0 +1,4 @@
+repository "kusochan_to_nezumi@udemy1013@cloud"
+  path "/"
+    br "/main"
+    co "/main"
