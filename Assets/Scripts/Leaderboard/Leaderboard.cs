@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Threading.Tasks;
 
+
 public class Leaderboard : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> names;
@@ -14,7 +15,12 @@ public class Leaderboard : MonoBehaviour
     [SerializeField] private TextMeshProUGUI highscoreText;
     private const string HighScoreKey = "HighScore";
 
-    private async void Start()
+    private void Start()
+    {
+        InitializeAndGetLeaderboard().LogExceptions();
+    }
+
+    private async Task InitializeAndGetLeaderboard()
     {
         await InitializeUnityServices();
         await GetLeaderboard();
@@ -81,9 +87,9 @@ public class Leaderboard : MonoBehaviour
         {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(username);
             await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardId, score);
-            Debug.Log($"Successfully added score for {username}");
+            Debug.Log($"Successfully added score for {username}: {score}");
             await GetLeaderboard();
-            DisplayHighScore(); // Update displayed high score
+            DisplayHighScore();
         }
         catch (System.Exception e)
         {

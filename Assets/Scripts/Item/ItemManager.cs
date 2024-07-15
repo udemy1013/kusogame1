@@ -73,7 +73,7 @@ public class ItemManager : MonoBehaviour
 
     public enum ItemType
     {
-        Clean,
+        Clean,  
         Condome,
         DoubleUp,
         Glass,

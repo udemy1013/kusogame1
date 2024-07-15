@@ -17,8 +17,9 @@ public class ScoreManager : MonoBehaviour
 
     private GameObject doubleUpUI;
 
-    private const string HighScoreKey = "HighScore";
+    private int currentScore = 0;
 
+    private const string HighScoreKey = "HighScore";
     private void Awake()
     {
         InitializeComponents();
@@ -93,19 +94,19 @@ public class ScoreManager : MonoBehaviour
 
         // スコアテキストを更新
         float totalScore = baseScore + doubleUpScore;
-        float displayScore = Mathf.FloorToInt(totalScore * 10f * 1.5f);
-        scoreText.text = $"{displayScore}m";
+        currentScore = Mathf.FloorToInt(totalScore * 10f * 1.5f);
+        scoreText.text = $"{currentScore}m";
 
         // Update high score
-        UpdateHighScore(Mathf.FloorToInt(displayScore));
+        UpdateHighScore(currentScore);
     }
 
-    public void UpdateHighScore(int currentScore)
+    public void UpdateHighScore(int score)
     {
         int highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
-        if (currentScore > highScore)
+        if (score > highScore)
         {
-            PlayerPrefs.SetInt(HighScoreKey, currentScore);
+            PlayerPrefs.SetInt(HighScoreKey, score);
             PlayerPrefs.Save();
         }
     }
@@ -169,9 +170,8 @@ public class ScoreManager : MonoBehaviour
     }
 
     // 現在のスコアを取得するメソッドを追加
-    public float GetCurrentScore()
+    public int GetCurrentScore()
     {
-        float totalScore = baseScore + doubleUpScore;
-        return Mathf.FloorToInt(totalScore * 10f * 1.5f);
+        return currentScore;
     }
 }
